@@ -20,91 +20,158 @@ export default function App({ Component, pageProps }) {
         storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
       });
 
-      var input = {
-          buyerIdentity: {
-            countryCode: "DE",
-          },
-      };
-      var localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`;
-      
-      client.checkout.create(input).then((checkout) => {
-          localStorage.setItem(localStorageCheckoutKey, checkout.id);
-          ShopifyBuy.UI.onReady(client).then((ui) => {
-            ui.createComponent("product", {
-              id: "9753368658263",
-              node: document.getElementById("product-component-1734934483872"),
-              moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
-              options: {
+      // First product Buy Button
+      ShopifyBuy.UI.onReady(client).then((ui) => {
+        ui.createComponent("product", {
+          id: "9753368363351",
+          node: document.getElementById("product-component-1734947827745"),
+          moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
+          options: {
+            product: {
+              styles: {
                 product: {
-                  styles: {
-                    product: {
-                      "@media (min-width: 601px)": {
-                        "max-width": "calc(25% - 20px)",
-                        "margin-left": "20px",
-                        "margin-bottom": "50px",
-                      },
-                    },
-                    button: {
-                      "border-radius": "6px",
-                      "padding-left": "46px",
-                      "padding-right": "46px",
-                    },
-                  },
-                  text: {
-                    button: "Add to cart",
+                  "@media (min-width: 601px)": {
+                    "max-width": "calc(25% - 20px)",
+                    "margin-left": "20px",
+                    "margin-bottom": "50px",
                   },
                 },
-                productSet: {
-                  styles: {
-                    products: {
-                      "@media (min-width: 601px)": {
-                        "margin-left": "-20px",
-                      },
-                    },
-                  },
+                button: {
+                  "border-radius": "6px",
+                  "padding-left": "46px",
+                  "padding-right": "46px",
                 },
-                modalProduct: {
-                  contents: {
-                    img: false,
-                    imgWithCarousel: true,
-                    button: false,
-                    buttonWithQuantity: true,
-                  },
-                  styles: {
-                    product: {
-                      "@media (min-width: 601px)": {
-                        "max-width": "100%",
-                        "margin-left": "0px",
-                        "margin-bottom": "0px",
-                      },
-                    },
-                    button: {
-                      "border-radius": "6px",
-                      "padding-left": "46px",
-                      "padding-right": "46px",
-                    },
-                  },
-                  text: {
-                    button: "Add to cart",
-                  },
-                },
-                option: {},
-                cart: {
-                  styles: {
-                    button: {
-                      "border-radius": "6px",
-                    },
-                  },
-                  text: {
-                    total: "Subtotal",
-                    button: "Checkout",
-                  },
-                  popup: false,
-                },
-                toggle: {},
               },
-            });
-          });  
+              text: {
+                button: "Add to cart",
+              },
+            },
+            productSet: {
+              styles: {
+                products: {
+                  "@media (min-width: 601px)": {
+                    "margin-left": "-20px",
+                  },
+                },
+              },
+            },
+            modalProduct: {
+              contents: {
+                img: false,
+                imgWithCarousel: true,
+                button: false,
+                buttonWithQuantity: true,
+              },
+              styles: {
+                product: {
+                  "@media (min-width: 601px)": {
+                    "max-width": "100%",
+                    "margin-left": "0px",
+                    "margin-bottom": "0px",
+                  },
+                },
+                button: {
+                  "border-radius": "6px",
+                  "padding-left": "46px",
+                  "padding-right": "46px",
+                },
+              },
+              text: {
+                button: "Add to cart",
+              },
+            },
+            option: {},
+            cart: {
+              styles: {
+                button: {
+                  "border-radius": "6px",
+                },
+              },
+              text: {
+                total: "Subtotal",
+                button: "Checkout",
+              },
+            },
+            toggle: {},
+          },
+        });
+      });
+
+      // Second product Buy Button (New Product)
+      ShopifyBuy.UI.onReady(client).then((ui) => {
+        ui.createComponent("product", {
+          id: "9753368363351", // Change this ID to the new product ID
+          node: document.getElementById("product-component-1734947827745"), // Change the target div ID for the new product
+          moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
+          options: {
+            product: {
+              styles: {
+                product: {
+                  "@media (min-width: 601px)": {
+                    "max-width": "calc(25% - 20px)",
+                    "margin-left": "20px",
+                    "margin-bottom": "50px",
+                  },
+                },
+                button: {
+                  "border-radius": "6px",
+                  "padding-left": "46px",
+                  "padding-right": "46px",
+                },
+              },
+              text: {
+                button: "Add to cart",
+              },
+            },
+            productSet: {
+              styles: {
+                products: {
+                  "@media (min-width: 601px)": {
+                    "margin-left": "-20px",
+                  },
+                },
+              },
+            },
+            modalProduct: {
+              contents: {
+                img: false,
+                imgWithCarousel: true,
+                button: false,
+                buttonWithQuantity: true,
+              },
+              styles: {
+                product: {
+                  "@media (min-width: 601px)": {
+                    "max-width": "100%",
+                    "margin-left": "0px",
+                    "margin-bottom": "0px",
+                  },
+                },
+                button: {
+                  "border-radius": "6px",
+                  "padding-left": "46px",
+                  "padding-right": "46px",
+                },
+              },
+              text: {
+                button: "Add to cart",
+              },
+            },
+            option: {},
+            cart: {
+              styles: {
+                button: {
+                  "border-radius": "6px",
+                },
+              },
+              text: {
+                total: "Subtotal",
+                button: "Checkout",
+              },
+            },
+            toggle: {},
+          },
+        });
       });
     }
 
@@ -125,8 +192,10 @@ export default function App({ Component, pageProps }) {
         <title>Shopify Buy Button Integration</title>
       </Head>
       <Component {...pageProps} />
-      {/* Shopify Buy Button container */}
-      <div id="product-component-1734934483872"></div>
+      {/* Shopify Buy Button container for Product 1 */}
+      <div id="product-component-1734947827745"></div>
+      {/* Shopify Buy Button container for Product 2 */}
+      <div id="product-component-1734947827745"></div>
     </>
   );
 }
