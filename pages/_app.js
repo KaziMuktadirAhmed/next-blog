@@ -1,243 +1,95 @@
-import "../styles/globals.css";
+useEffect(() => {
+  const scriptURL = "https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js";
 
-import Head from "next/head";
+  function loadScript() {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = scriptURL;
+    document.head.appendChild(script);
+    script.onload = ShopifyBuyInit;
+  }
 
-import { useEffect } from "react";
- 
-export default function App({ Component, pageProps }) {
+  function ShopifyBuyInit() {
+    const client = ShopifyBuy.buildClient({
+      domain: "a6bcf5-3.myshopify.com",
+      storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
+    });
 
-  useEffect(() => {
+    const localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`;
 
-    const scriptURL = "https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js";
- 
-    function loadScript() {
+    // Retrieve the stored checkout ID if it exists
+    const storedCheckoutId = localStorage.getItem(localStorageCheckoutKey);
 
-      const script = document.createElement("script");
-
-      script.async = true;
-
-      script.src = scriptURL;
-
-      document.head.appendChild(script);
-
-      script.onload = ShopifyBuyInit;
-
-    }
- 
-    function ShopifyBuyInit() {
-
-      const client = ShopifyBuy.buildClient({
-
-        domain: "a6bcf5-3.myshopify.com",
-
-        storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
-
-      });
- 
-      var input = {
-
-          buyerIdentity: {
-
-            countryCode: "DE",
-
-          },
-
+    // If no stored checkout ID, create a new one
+    if (!storedCheckoutId) {
+      const input = {
+        buyerIdentity: {
+          countryCode: "DE", // Or any other value you want
+        },
       };
-
-      var localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`;
-
       client.checkout.create(input).then((checkout) => {
-
-          localStorage.setItem(localStorageCheckoutKey, checkout.id);
-
-          ShopifyBuy.UI.onReady(client).then((ui) => {
-
-            ui.createComponent("product", {
-
-              id: "9753368363351",
-
-              node: document.getElementById("product-component-1734934483872"),
-
-              moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
-
-              options: {
-
-                product: {
-
-                  styles: {
-
-                    product: {
-
-                      "@media (min-width: 601px)": {
-
-                        "max-width": "calc(25% - 20px)",
-
-                        "margin-left": "20px",
-
-                        "margin-bottom": "50px",
-
-                      },
-
-                    },
-
-                    button: {
-
-                      "border-radius": "6px",
-
-                      "padding-left": "46px",
-
-                      "padding-right": "46px",
-
-                    },
-
-                  },
-
-                  text: {
-
-                    button: "Add to cart",
-
-                  },
-
-                },
-
-                productSet: {
-
-                  styles: {
-
-                    products: {
-
-                      "@media (min-width: 601px)": {
-
-                        "margin-left": "-20px",
-
-                      },
-
-                    },
-
-                  },
-
-                },
-
-                modalProduct: {
-
-                  contents: {
-
-                    img: false,
-
-                    imgWithCarousel: true,
-
-                    button: false,
-
-                    buttonWithQuantity: true,
-
-                  },
-
-                  styles: {
-
-                    product: {
-
-                      "@media (min-width: 601px)": {
-
-                        "max-width": "100%",
-
-                        "margin-left": "0px",
-
-                        "margin-bottom": "0px",
-
-                      },
-
-                    },
-
-                    button: {
-
-                      "border-radius": "6px",
-
-                      "padding-left": "46px",
-
-                      "padding-right": "46px",
-
-                    },
-
-                  },
-
-                  text: {
-
-                    button: "Add to cart",
-
-                  },
-
-                },
-
-                option: {},
-
-                cart: {
-
-                  styles: {
-
-                    button: {
-
-                      "border-radius": "6px",
-
-                    },
-
-                  },
-
-                  text: {
-
-                    total: "Subtotal",
-
-                    button: "Checkout",
-
-                  },
-
-                  popup: false,
-
-                },
-
-                toggle: {},
-
-              },
-
-            });
-
-          });  
-
+        localStorage.setItem(localStorageCheckoutKey, checkout.id); // Save checkout ID to localStorage
+        initializeBuyButton(client, checkout.id);
       });
-
-    }
- 
-    if (window.ShopifyBuy) {
-
-      if (window.ShopifyBuy.UI) {
-
-        ShopifyBuyInit();
-
-      } else {
-
-        loadScript();
-
-      }
-
     } else {
-
-      loadScript();
-
+      initializeBuyButton(client, storedCheckoutId); // Use the stored checkout ID
     }
+  }
 
-  }, []);
- 
-  return (
-<>
-<Head>
-<title>Shopify Buy Button Integration</title>
-</Head>
-<Component {...pageProps} />
+  function initializeBuyButton(client, checkoutId) {
+    ShopifyBuy.UI.onReady(client).then((ui) => {
+      ui.createComponent("product", {
+        id: "9753368658263",
+        node: document.getElementById("product-component-1734934483872"),
+        moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
+        options: {
+          product: {
+            styles: {
+              product: {
+                "@media (min-width: 601px)": {
+                  "max-width": "calc(25% - 20px)",
+                  "margin-left": "20px",
+                  "margin-bottom": "50px",
+                },
+              },
+              button: {
+                "border-radius": "6px",
+                "padding-left": "46px",
+                "padding-right": "46px",
+              },
+            },
+            text: {
+              button: "Add to cart",
+            },
+          },
+          cart: {
+            popup: true, // Ensure popup mode is enabled
+            startOpen: true, // Optionally open the popup automatically
+            contents: {
+              note: checkoutId ? `Checkout ID: ${checkoutId}` : "New Checkout",
+            },
+            styles: {
+              button: {
+                "border-radius": "6px",
+              },
+            },
+            text: {
+              total: "Subtotal",
+              button: "Checkout",
+            },
+          },
+        },
+      });
+    });
+  }
 
-      {/* Shopify Buy Button container */}
-<div id="product-component-1734934483872"></div>
-</>
-
-  );
-
-}
- 
+  if (window.ShopifyBuy) {
+    if (window.ShopifyBuy.UI) {
+      ShopifyBuyInit();
+    } else {
+      loadScript();
+    }
+  } else {
+    loadScript();
+  }
+}, []);
