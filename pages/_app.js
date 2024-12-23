@@ -6,6 +6,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const scriptURL = "https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js";
 
+    // Load the Shopify Buy SDK script asynchronously
     function loadScript() {
       const script = document.createElement("script");
       script.async = true;
@@ -14,106 +15,113 @@ export default function App({ Component, pageProps }) {
       script.onload = ShopifyBuyInit;
     }
 
-    function ShopifyBuyInit() {
-      const client = ShopifyBuy.buildClient({
-        domain: "a6bcf5-3.myshopify.com",
-        storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
-        language: getLanguage()
-      });
-
-      const input = {
-        buyerIdentity: {
-          countryCode: "de-DE" // See blogpost link below
-        },
-      }
-
-      const localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`
-
-      // Prevent creating a checkout if there is already one available
-      if (!localStorage.getItem(localStorageCheckoutKey)) {
-        const checkout = await client.checkout.create(input)
-        localStorage.setItem(localStorageCheckoutKey, checkout.id)
-      }
-
-      ShopifyBuy.UI.onReady(client).then((ui) => {
-        ui.createComponent("product", {
-          id: "9753368363351",
-          node: document.getElementById("product-component-1734941849355"),
-          moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
-          options: {
-            product: {
-              styles: {
-                product: {
-                  "@media (min-width: 601px)": {
-                    "max-width": "calc(25% - 20px)",
-                    "margin-left": "20px",
-                    "margin-bottom": "50px",
-                  },
-                },
-                button: {
-                  "border-radius": "6px",
-                  "padding-left": "46px",
-                  "padding-right": "46px",
-                },
-              },
-              buttonDestination: "checkout",
-              text: {
-                button: "Buy now",
-              },
-            },
-            productSet: {
-              styles: {
-                products: {
-                  "@media (min-width: 601px)": {
-                    "margin-left": "-20px",
-                  },
-                },
-              },
-            },
-            modalProduct: {
-              contents: {
-                img: false,
-                imgWithCarousel: true,
-                button: false,
-                buttonWithQuantity: true,
-              },
-              styles: {
-                product: {
-                  "@media (min-width: 601px)": {
-                    "max-width": "100%",
-                    "margin-left": "0px",
-                    "margin-bottom": "0px",
-                  },
-                },
-                button: {
-                  "border-radius": "6px",
-                  "padding-left": "46px",
-                  "padding-right": "46px",
-                },
-              },
-              text: {
-                button: "Add to cart",
-              },
-            },
-            option: {},
-            cart: {
-              styles: {
-                button: {
-                  "border-radius": "6px",
-                },
-              },
-              text: {
-                total: "Subtotal",
-                button: "Checkout",
-              },
-              popup: false,
-            },
-            toggle: {},
-          },
+    // Initialize the Shopify Buy client and UI
+    async function ShopifyBuyInit() {
+      try {
+        const client = ShopifyBuy.buildClient({
+          domain: "a6bcf5-3.myshopify.com",
+          storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
+          language: getLanguage() // Make sure `getLanguage` is defined elsewhere
         });
-      });
+
+        const input = {
+          buyerIdentity: {
+            countryCode: "de-DE" // Example: you can set the country code here
+          },
+        };
+
+        const localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`;
+
+        // Prevent creating a checkout if there's already one available
+        if (!localStorage.getItem(localStorageCheckoutKey)) {
+          const checkout = await client.checkout.create(input);
+          localStorage.setItem(localStorageCheckoutKey, checkout.id);
+        }
+
+        // Set up the UI components once the client is ready
+        ShopifyBuy.UI.onReady(client).then((ui) => {
+          ui.createComponent("product", {
+            id: "9753368363351", // Product ID
+            node: document.getElementById("product-component-1734941849355"),
+            moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
+            options: {
+              product: {
+                styles: {
+                  product: {
+                    "@media (min-width: 601px)": {
+                      "max-width": "calc(25% - 20px)",
+                      "margin-left": "20px",
+                      "margin-bottom": "50px",
+                    },
+                  },
+                  button: {
+                    "border-radius": "6px",
+                    "padding-left": "46px",
+                    "padding-right": "46px",
+                  },
+                },
+                buttonDestination: "checkout",
+                text: {
+                  button: "Buy now",
+                },
+              },
+              productSet: {
+                styles: {
+                  products: {
+                    "@media (min-width: 601px)": {
+                      "margin-left": "-20px",
+                    },
+                  },
+                },
+              },
+              modalProduct: {
+                contents: {
+                  img: false,
+                  imgWithCarousel: true,
+                  button: false,
+                  buttonWithQuantity: true,
+                },
+                styles: {
+                  product: {
+                    "@media (min-width: 601px)": {
+                      "max-width": "100%",
+                      "margin-left": "0px",
+                      "margin-bottom": "0px",
+                    },
+                  },
+                  button: {
+                    "border-radius": "6px",
+                    "padding-left": "46px",
+                    "padding-right": "46px",
+                  },
+                },
+                text: {
+                  button: "Add to cart",
+                },
+              },
+              option: {},
+              cart: {
+                styles: {
+                  button: {
+                    "border-radius": "6px",
+                  },
+                },
+                text: {
+                  total: "Subtotal",
+                  button: "Checkout",
+                },
+                popup: false,
+              },
+              toggle: {},
+            },
+          });
+        });
+      } catch (error) {
+        console.error("Error initializing Shopify Buy button:", error);
+      }
     }
 
+    // Load the Shopify Buy SDK if it's not already loaded
     if (window.ShopifyBuy) {
       if (window.ShopifyBuy.UI) {
         ShopifyBuyInit();
@@ -123,7 +131,7 @@ export default function App({ Component, pageProps }) {
     } else {
       loadScript();
     }
-  }, []);
+  }, []); // Empty dependency array to ensure this runs once on mount
 
   return (
     <>
