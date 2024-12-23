@@ -90,6 +90,7 @@ export default function App({ Component, pageProps }) {
               text: {
                 total: "Subtotal",
                 button: "Checkout",
+                currency: "EUR"
               },
               popup: false,
             },
