@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
 
       var input = {
           buyerIdentity: {
-            countryCode: "de-DE",
+            countryCode: "DE",
           },
       };
       var localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`;
