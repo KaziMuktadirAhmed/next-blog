@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }) {
 
             ui.createComponent("product", {
 
-              id: "9753368658263",
+              id: "9753368363351",
 
               node: document.getElementById("product-component-1734934483872"),
 
