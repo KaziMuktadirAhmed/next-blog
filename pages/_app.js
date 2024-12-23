@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
 
       ShopifyBuy.UI.onReady(client).then((ui) => {
         ui.createComponent("product", {
-          id: "9753368658263",
+          id: "9753368527191",
           node: document.getElementById("product-component-1734934483872"),
           moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
           options: {
