@@ -18,7 +18,22 @@ export default function App({ Component, pageProps }) {
       const client = ShopifyBuy.buildClient({
         domain: "a6bcf5-3.myshopify.com",
         storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
+        language: getLanguage()
       });
+
+      const input = {
+        buyerIdentity: {
+          countryCode: "de-DE" // See blogpost link below
+        },
+      }
+
+      const localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`
+
+      // Prevent creating a checkout if there is already one available
+      if (!localStorage.getItem(localStorageCheckoutKey)) {
+        const checkout = await client.checkout.create(input)
+        localStorage.setItem(localStorageCheckoutKey, checkout.id)
+      }
 
       ShopifyBuy.UI.onReady(client).then((ui) => {
         ui.createComponent("product", {
