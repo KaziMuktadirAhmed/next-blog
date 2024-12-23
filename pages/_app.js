@@ -22,20 +22,40 @@ export default function App({ Component, pageProps }) {
 
       ShopifyBuy.UI.onReady(client).then((ui) => {
         ui.createComponent("product", {
-          id: "8200862007601",
-          node: document.getElementById("product-component-1734932413025"),
+          id: "8224382615857",
+          node: document.getElementById("product-component-1734934014636"),
           moneyFormat: "Tk%20%7B%7Bamount%7D%7D",
           options: {
             product: {
               styles: {
                 product: {
                   "@media (min-width: 601px)": {
-                    "max-width": "calc(25% - 20px)",
-                    "margin-left": "20px",
+                    "max-width": "100%",
+                    "margin-left": "0",
                     "margin-bottom": "50px",
                   },
+                  "text-align": "left",
+                },
+                title: {
+                  "font-size": "26px",
+                },
+                price: {
+                  "font-size": "18px",
+                },
+                compareAt: {
+                  "font-size": "15.3px",
+                },
+                unitPrice: {
+                  "font-size": "15.3px",
                 },
               },
+              layout: "horizontal",
+              contents: {
+                img: false,
+                imgWithCarousel: true,
+                description: true,
+              },
+              width: "100%",
               text: {
                 button: "Add to cart",
               },
@@ -64,6 +84,30 @@ export default function App({ Component, pageProps }) {
                     "margin-bottom": "0px",
                   },
                 },
+                title: {
+                  "font-family": "Helvetica Neue, sans-serif",
+                  "font-weight": "bold",
+                  "font-size": "26px",
+                  color: "#4c4c4c",
+                },
+                price: {
+                  "font-family": "Helvetica Neue, sans-serif",
+                  "font-weight": "normal",
+                  "font-size": "18px",
+                  color: "#4c4c4c",
+                },
+                compareAt: {
+                  "font-family": "Helvetica Neue, sans-serif",
+                  "font-weight": "normal",
+                  "font-size": "15.3px",
+                  color: "#4c4c4c",
+                },
+                unitPrice: {
+                  "font-family": "Helvetica Neue, sans-serif",
+                  "font-weight": "normal",
+                  "font-size": "15.3px",
+                  color: "#4c4c4c",
+                },
               },
               text: {
                 button: "Add to cart",
@@ -75,7 +119,6 @@ export default function App({ Component, pageProps }) {
                 total: "Subtotal",
                 button: "Checkout",
               },
-              popup: false,
             },
             toggle: {},
           },
@@ -100,7 +143,8 @@ export default function App({ Component, pageProps }) {
         <title>Shopify Buy Button Integration</title>
       </Head>
       <Component {...pageProps} />
-      <div id="product-component-1734932413025"></div>
+      {/* Shopify Buy Button container */}
+      <div id="product-component-1734934014636"></div>
     </>
   );
 }
