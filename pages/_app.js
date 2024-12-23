@@ -18,6 +18,7 @@ export default function App({ Component, pageProps }) {
       const client = ShopifyBuy.buildClient({
         domain: "a6bcf5-3.myshopify.com",
         storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
+        local: "en-DE"
       });
 
       ShopifyBuy.UI.onReady(client).then((ui) => {
