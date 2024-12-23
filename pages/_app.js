@@ -16,46 +16,31 @@ export default function App({ Component, pageProps }) {
 
     function ShopifyBuyInit() {
       const client = ShopifyBuy.buildClient({
-        domain: "bs-partner-program.myshopify.com",
-        storefrontAccessToken: "7c8b94ba7d07859285db1e17c10580b7",
+        domain: "a6bcf5-3.myshopify.com",
+        storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
       });
 
       ShopifyBuy.UI.onReady(client).then((ui) => {
         ui.createComponent("product", {
-          id: "8224382615857",
-          node: document.getElementById("product-component-1734934014636"),
-          moneyFormat: "Tk%20%7B%7Bamount%7D%7D",
+          id: "9753368658263",
+          node: document.getElementById("product-component-1734934483872"),
+          moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
           options: {
             product: {
               styles: {
                 product: {
                   "@media (min-width: 601px)": {
-                    "max-width": "100%",
-                    "margin-left": "0",
+                    "max-width": "calc(25% - 20px)",
+                    "margin-left": "20px",
                     "margin-bottom": "50px",
                   },
-                  "text-align": "left",
                 },
-                title: {
-                  "font-size": "26px",
-                },
-                price: {
-                  "font-size": "18px",
-                },
-                compareAt: {
-                  "font-size": "15.3px",
-                },
-                unitPrice: {
-                  "font-size": "15.3px",
+                button: {
+                  "border-radius": "6px",
+                  "padding-left": "46px",
+                  "padding-right": "46px",
                 },
               },
-              layout: "horizontal",
-              contents: {
-                img: false,
-                imgWithCarousel: true,
-                description: true,
-              },
-              width: "100%",
               text: {
                 button: "Add to cart",
               },
@@ -84,29 +69,10 @@ export default function App({ Component, pageProps }) {
                     "margin-bottom": "0px",
                   },
                 },
-                title: {
-                  "font-family": "Helvetica Neue, sans-serif",
-                  "font-weight": "bold",
-                  "font-size": "26px",
-                  color: "#4c4c4c",
-                },
-                price: {
-                  "font-family": "Helvetica Neue, sans-serif",
-                  "font-weight": "normal",
-                  "font-size": "18px",
-                  color: "#4c4c4c",
-                },
-                compareAt: {
-                  "font-family": "Helvetica Neue, sans-serif",
-                  "font-weight": "normal",
-                  "font-size": "15.3px",
-                  color: "#4c4c4c",
-                },
-                unitPrice: {
-                  "font-family": "Helvetica Neue, sans-serif",
-                  "font-weight": "normal",
-                  "font-size": "15.3px",
-                  color: "#4c4c4c",
+                button: {
+                  "border-radius": "6px",
+                  "padding-left": "46px",
+                  "padding-right": "46px",
                 },
               },
               text: {
@@ -115,10 +81,16 @@ export default function App({ Component, pageProps }) {
             },
             option: {},
             cart: {
+              styles: {
+                button: {
+                  "border-radius": "6px",
+                },
+              },
               text: {
                 total: "Subtotal",
                 button: "Checkout",
               },
+              popup: false,
             },
             toggle: {},
           },
@@ -144,7 +116,7 @@ export default function App({ Component, pageProps }) {
       </Head>
       <Component {...pageProps} />
       {/* Shopify Buy Button container */}
-      <div id="product-component-1734934014636"></div>
+      <div id="product-component-1734934483872"></div>
     </>
   );
 }
