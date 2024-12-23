@@ -6,7 +6,6 @@ export default function App({ Component, pageProps }) {
     <Component {...pageProps} />
     <div id='product-component-1734932413025'></div>
 <script type="text/javascript">
-/*<![CDATA[*/
 (function () {
   var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
   if (window.ShopifyBuy) {
@@ -93,7 +92,6 @@ export default function App({ Component, pageProps }) {
     });
   }
 })();
-/*]]>*/
 </script>
   </>;
 }
