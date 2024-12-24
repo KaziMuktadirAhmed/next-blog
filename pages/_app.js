@@ -14,29 +14,28 @@ export default function App({ Component, pageProps }) {
     }
 
     function ShopifyBuyInit() {
-      const client = ShopifyBuy.buildClient({
+      const client1 = ShopifyBuy.buildClient({
         domain: "a6bcf5-3.myshopify.com",
         storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
       });
 
-      // Checkout keys for both products
-      const checkoutKeyProduct1 = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId.DE`;
-      const checkoutKeyProduct2 = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId.EU`;
+      const client2 = ShopifyBuy.buildClient({
+        domain: "a6bcf5-3.myshopify.com",
+        storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
+      });
 
-      // Initialize first product
-      handleCheckout(client, checkoutKeyProduct1, "DE", "9753368658263", "product-component-1734934483872");
+      // First product setup
+      handleCheckout(client1, "checkoutId-DE", "DE", "9753368658263", "product-component-1734934483872");
 
-      // Initialize second product
-      handleCheckout(client, checkoutKeyProduct2, "EU", "9753370198359", "product-component-9753370198359");
+      // Second product setup
+      handleCheckout(client2, "checkoutId-EU", "EU", "9753370198359", "product-component-9753370198359");
     }
 
     function handleCheckout(client, checkoutKey, countryCode, productId, containerId) {
       const storedCheckoutId = localStorage.getItem(checkoutKey);
 
       if (!storedCheckoutId) {
-        const input = {
-          buyerIdentity: { countryCode },
-        };
+        const input = { buyerIdentity: { countryCode } };
         client.checkout.create(input).then((checkout) => {
           localStorage.setItem(checkoutKey, checkout.id);
           initializeBuyButton(client, checkout.id, productId, containerId);
