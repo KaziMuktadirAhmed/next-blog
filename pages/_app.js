@@ -38,9 +38,8 @@ export default function App({ Component, pageProps }) {
       } else {
         initializeBuyButton(client, checkout.id, "9753368658263", "product-component-1734934483872"); // Use existing checkout ID
       }
+      initializeBuyButton(client, checkout.id, "9753370198359", "product-component-111222333");
     }
-
-   initializeBuyButton(client, checkout.id, "9753370198359", "product-component-111222333");
  
     function initializeBuyButton(client, checkoutId, productId, containerId) {
       ShopifyBuy.UI.onReady(client).then((ui) => {
