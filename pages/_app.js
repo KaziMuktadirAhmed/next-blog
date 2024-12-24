@@ -70,9 +70,6 @@ export default function App({ Component, pageProps }) {
             cart: {
               popup: true, // Enable popup cart
               startOpen: false, // Optionally auto-open the popup
-              contents: {
-                note: `Checkout ID: ${checkoutId}`, // Display checkout ID for reference
-              },
               styles: {
                 button: {
                   "border-radius": "6px",
