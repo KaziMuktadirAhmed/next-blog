@@ -33,14 +33,16 @@ export default function App({ Component, pageProps }) {
         };
         client.checkout.create(input).then((checkout) => {
           localStorage.setItem(localStorageCheckoutKey, checkout.id); // Save checkout ID
-          initializeBuyButton(client, checkout.id);
+          initializeBuyButton(client, checkout.id, "9753368658263", "product-component-1734934483872");
         });
       } else {
-        initializeBuyButton(client, storedCheckoutId); // Use existing checkout ID
+        initializeBuyButton(client, checkout.id, "9753368658263", "product-component-1734934483872"); // Use existing checkout ID
       }
     }
+
+   initializeBuyButton(client, checkout.id, "9753370198359", "product-component-111222333");
  
-    function initializeBuyButton(client, checkoutId) {
+    function initializeBuyButton(client, checkoutId, productId, containerId) {
       ShopifyBuy.UI.onReady(client).then((ui) => {
         ui.createComponent("product", {
           id: "9753368658263",
@@ -106,7 +108,8 @@ export default function App({ Component, pageProps }) {
 <Component {...pageProps} />
  
       {/* Shopify Buy Button container */}
-<div id="product-component-1734934483872"></div>
+ <div id="product-component-1734934483872"></div>
+ <div id="product-component-111222333"></div>
 </>
   );
 }
