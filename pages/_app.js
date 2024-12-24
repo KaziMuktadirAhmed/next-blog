@@ -14,42 +14,16 @@ export default function App({ Component, pageProps }) {
     }
 
     function ShopifyBuyInit() {
-      const client1 = ShopifyBuy.buildClient({
+      const client = ShopifyBuy.buildClient({
         domain: "a6bcf5-3.myshopify.com",
         storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
       });
 
-      const client2 = ShopifyBuy.buildClient({
-        domain: "a6bcf5-3.myshopify.com",
-        storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
-      });
-
-      // First product setup
-      handleCheckout(client1, "checkoutId-DE", "DE", "9753368658263", "product-component-1734934483872");
-
-      // Second product setup
-      handleCheckout(client2, "checkoutId-EU", "EU", "9753370198359", "product-component-9753370198359");
-    }
-
-    function handleCheckout(client, checkoutKey, countryCode, productId, containerId) {
-      const storedCheckoutId = localStorage.getItem(checkoutKey);
-
-      if (!storedCheckoutId) {
-        const input = { buyerIdentity: { countryCode } };
-        client.checkout.create(input).then((checkout) => {
-          localStorage.setItem(checkoutKey, checkout.id);
-          initializeBuyButton(client, checkout.id, productId, containerId);
-        });
-      } else {
-        initializeBuyButton(client, storedCheckoutId, productId, containerId);
-      }
-    }
-
-    function initializeBuyButton(client, checkoutId, productId, containerId) {
+      // First product: Create and render Buy Button
       ShopifyBuy.UI.onReady(client).then((ui) => {
         ui.createComponent("product", {
-          id: productId,
-          node: document.getElementById(containerId),
+          id: "9753368658263", // Product ID for the first button
+          node: document.getElementById("product-component-1"),
           moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
           options: {
             product: {
@@ -74,9 +48,49 @@ export default function App({ Component, pageProps }) {
             cart: {
               popup: true,
               startOpen: false,
-              contents: {
-                note: `Checkout ID: ${checkoutId}`,
+              styles: {
+                button: {
+                  "border-radius": "6px",
+                },
               },
+              text: {
+                total: "Subtotal",
+                button: "Checkout",
+              },
+            },
+          },
+        });
+      });
+
+      // Second product: Create and render Buy Button
+      ShopifyBuy.UI.onReady(client).then((ui) => {
+        ui.createComponent("product", {
+          id: "9753370198359", // Product ID for the second button
+          node: document.getElementById("product-component-2"),
+          moneyFormat: "%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D",
+          options: {
+            product: {
+              styles: {
+                product: {
+                  "@media (min-width: 601px)": {
+                    "max-width": "calc(25% - 20px)",
+                    "margin-left": "20px",
+                    "margin-bottom": "50px",
+                  },
+                },
+                button: {
+                  "border-radius": "6px",
+                  "padding-left": "46px",
+                  "padding-right": "46px",
+                },
+              },
+              text: {
+                button: "Add to cart",
+              },
+            },
+            cart: {
+              popup: true,
+              startOpen: false,
               styles: {
                 button: {
                   "border-radius": "6px",
@@ -111,10 +125,10 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
 
       {/* First product container */}
-      <div id="product-component-1734934483872"></div>
+      <div id="product-component-1"></div>
 
       {/* Second product container */}
-      <div id="product-component-9753370198359"></div>
+      <div id="product-component-2"></div>
     </>
   );
 }
