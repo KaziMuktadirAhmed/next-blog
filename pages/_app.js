@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-
+ 
 export default function App({ Component, pageProps }) {
   useEffect(() => {
     const scriptURL = "https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js";
-
+ 
     function loadScript() {
       const script = document.createElement("script");
       script.async = true;
@@ -12,18 +12,18 @@ export default function App({ Component, pageProps }) {
       document.head.appendChild(script);
       script.onload = ShopifyBuyInit;
     }
-
+ 
     function ShopifyBuyInit() {
       const client = ShopifyBuy.buildClient({
         domain: "a6bcf5-3.myshopify.com",
         storefrontAccessToken: "42b7fc817b2e6e5402de5c0ee7df3b3d",
       });
-
+ 
       const localStorageCheckoutKey = `${client.config.storefrontAccessToken}.${client.config.domain}.checkoutId`;
-
+ 
       // Retrieve stored checkout ID if it exists
       const storedCheckoutId = localStorage.getItem(localStorageCheckoutKey);
-
+ 
       if (!storedCheckoutId) {
         // Create a new checkout if not already stored
         const input = {
@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }) {
         initializeBuyButton(client, storedCheckoutId); // Use existing checkout ID
       }
     }
-
+ 
     function initializeBuyButton(client, checkoutId) {
       ShopifyBuy.UI.onReady(client).then((ui) => {
         ui.createComponent("product", {
@@ -86,7 +86,7 @@ export default function App({ Component, pageProps }) {
         });
       });
     }
-
+ 
     if (window.ShopifyBuy) {
       if (window.ShopifyBuy.UI) {
         ShopifyBuyInit();
@@ -97,16 +97,16 @@ export default function App({ Component, pageProps }) {
       loadScript();
     }
   }, []);
-
+ 
   return (
-    <>
-      <Head>
-        <title>Shopify Buy Button Integration</title>
-      </Head>
-      <Component {...pageProps} />
-
+<>
+<Head>
+<title>Shopify Buy Button Integration</title>
+</Head>
+<Component {...pageProps} />
+ 
       {/* Shopify Buy Button container */}
-      <div id="product-component-1734934483872"></div>
-    </>
+<div id="product-component-1734934483872"></div>
+</>
   );
 }
